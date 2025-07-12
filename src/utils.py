@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
+from statsmodels.tsa.seasonal import seasonal_decompose
 
 
 # From Lesson 3
@@ -150,6 +151,49 @@ def plot_lags(x,
 #     )
 
 # From Lesson 5
+
+
+def extract_ticker(df_clean, ticker, requiredrecords=500, datapath=None, write=False,):
+    if type(ticker) is not str:
+        raise TypeError('ticker must be a string')
+    print(f'Extracting for ticker: {ticker}')
+    df_clean_sample = df_clean[
+        (df_clean['Ticker'].isin([ticker])) #& 
+        # (df_clean['Date'] >= date(2025, 1, 1))
+        ].copy()
+    # set date as index
+    df_clean_sample.set_index('Date', inplace=True)
+    # df_clean_sample = df_clean_sample.resample('D').mean()
+    df_clean_sample.index = df_clean_sample.index.normalize()
+    # drop unnecessary coluns
+    df_clean_sample.drop(columns=['Ticker'], inplace=True)
+    # drop rows with nans
+    df_clean_sample = df_clean_sample.dropna()
+    df_clean_sample = df_clean_sample.sort_values('Date', ascending=False)
+    # take only the requested number of records from the latest period
+    df_clean_sample = df_clean_sample.head(requiredrecords)
+    print(f'Extracted sample shape: {df_clean_sample.shape}')
+    
+    if write:
+        clean_sample_fpath_full = os.path.join(datapath, f'clean_sample_{ticker}.csv')
+        df_clean_sample.to_csv(clean_sample_fpath_full, index=False)
+        print(f'Wrote sample to: {clean_sample_fpath_full}')
+    return df_clean_sample
+
+def plot_seasonal_composition(df, feature):
+    df=df.copy()
+    if df.index[-1]<df.index[0]:
+        #flip upside down
+        df=df.iloc[::-1]
+    decomposition = seasonal_decompose(
+        df[feature], # .asfreq('D'),
+        model='additive',
+        period=5
+        )
+    fig = decomposition.plot()
+    fig.set_size_inches(15, 10)
+    # plt.show()
+    # plt.title(feature)
 
 
 class BoostedHybrid:
