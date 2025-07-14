@@ -1,11 +1,21 @@
 import os
 
+import kaggle
 import numpy as np
 import pandas as pd
 
-def load_raw_data(rootpath, datasetname):
+def load_raw_data(rootpath, user, datasetname):
     print(f'rootpath: {rootpath}')
     datapath = os.path.join(rootpath, 'data')
+
+    os.makedirs(datapath, exist_ok=True)
+    if not os.path.exists(os.path.join(datapath, datasetname)):
+        kaggle.api.dataset_download_files(
+            dataset=f'{user}/{datasetname}',
+            path=datapath,
+            unzip=True)
+    else:
+        print('Raw data already found in location {}'.format(datapath))
 
     raw_fpath = os.listdir(os.path.join(datapath, datasetname))[0]
     raw_fpath_full = os.path.join(datapath, datasetname, raw_fpath)
