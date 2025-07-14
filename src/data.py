@@ -3,9 +3,8 @@ import os
 import numpy as np
 import pandas as pd
 
-def load_raw_data(rootpath):
+def load_raw_data(rootpath, datasetname):
     print(f'rootpath: {rootpath}')
-    datasetname = 'world-stock-prices-daily-updating'
     datapath = os.path.join(rootpath, 'data')
 
     raw_fpath = os.listdir(os.path.join(datapath, datasetname))[0]
