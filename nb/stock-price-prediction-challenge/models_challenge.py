@@ -7,7 +7,7 @@ from sklearn.metrics import root_mean_squared_error
 from sklearn.multioutput import RegressorChain
 from xgboost import XGBRegressor
 
-from . import data
+import data_challenge as data
 
 def make_multistep_target(y, steps):
     y_multi = pd.concat(
