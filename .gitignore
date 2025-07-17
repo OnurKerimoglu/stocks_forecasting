@@ -212,3 +212,5 @@ __marimo__/
 data/*
 
 *csv
+
+nb/stock-price-prediction-challenge/logs/*
