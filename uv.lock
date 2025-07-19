@@ -279,6 +279,21 @@ wheels = [
 ]
 
 [[package]]
+name = "cmdstanpy"
+version = "1.2.5"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "numpy" },
+    { name = "pandas" },
+    { name = "stanio" },
+    { name = "tqdm" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/ca/d7/0bd9a70cf49007eb87a6fbb9b09f52ec741414b39113bcb588df55c64320/cmdstanpy-1.2.5.tar.gz", hash = "sha256:53314e934ac63d894affb36263ac062b1e0e483c368a7b691087726803917b3b", size = 114278, upload-time = "2024-12-11T20:14:33.768Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/2a/80/04b3989f055e555737b3b6944f02112e90cfc4f2e53c763771dded22e684/cmdstanpy-1.2.5-py3-none-any.whl", hash = "sha256:90ae8781d80efbc62962b91974deb6033ee2f0696324eacde7188d837c36c47c", size = 94497, upload-time = "2024-12-11T20:14:32.435Z" },
+]
+
+[[package]]
 name = "colorama"
 version = "0.4.6"
 source = { registry = "https://pypi.org/simple" }
@@ -565,6 +580,18 @@ wheels = [
 ]
 
 [[package]]
+name = "holidays"
+version = "0.76"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "python-dateutil" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/b8/07/3328cb584fd0e4ca02c007ad66ae7d4ebb6e34ef3be96d089dbb7cbe884f/holidays-0.76.tar.gz", hash = "sha256:41a35fe7693c0306b95c86e1103d1d3ec7dfa873540c651bbdc35f604056efe8", size = 693054, upload-time = "2025-07-07T18:32:20.864Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e6/b0/de2bdc19367109936d8f321068723d473c825ab53bd7490779b6ad519989/holidays-0.76-py3-none-any.whl", hash = "sha256:c57b1c258b6697832c29b8f09f18ca2f69c3200c0762a5d606efc76127a06595", size = 1124485, upload-time = "2025-07-07T18:32:19.024Z" },
+]
+
+[[package]]
 name = "httpcore"
 version = "1.0.9"
 source = { registry = "https://pypi.org/simple" }
@@ -599,6 +626,15 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/f1/70/7703c29685631f5a7590aa73f1f1d3fa9a380e654b86af429e0934a32f7d/idna-3.10.tar.gz", hash = "sha256:12f65c9b470abda6dc35cf8e63cc574b1c52b11df2c86030af0ac09b01b13ea9", size = 190490, upload-time = "2024-09-15T18:07:39.745Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/76/c6/c88e154df9c4e1a2a66ccf0005a88dfb2650c1dffb6f5ce603dfbd452ce3/idna-3.10-py3-none-any.whl", hash = "sha256:946d195a0d259cbba61165e88e65941f16e9b36ea6ddb97f00452bae8b1287d3", size = 70442, upload-time = "2024-09-15T18:07:37.964Z" },
+]
+
+[[package]]
+name = "importlib-resources"
+version = "6.5.2"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/cf/8c/f834fbf984f691b4f7ff60f50b514cc3de5cc08abfc3295564dd89c5e2e7/importlib_resources-6.5.2.tar.gz", hash = "sha256:185f87adef5bcc288449d98fb4fba07cea78bc036455dd44c5fc4a2fe78fed2c", size = 44693, upload-time = "2025-01-03T18:51:56.698Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/a4/ed/1f1afb2e9e7f38a545d628f864d562a5ae64fe6f7a10e28ffb9b185b4e89/importlib_resources-6.5.2-py3-none-any.whl", hash = "sha256:789cfdc3ed28c78b67a06acb8126751ced69a3d5f79c095a98298cd8a760ccec", size = 37461, upload-time = "2025-01-03T18:51:54.306Z" },
 ]
 
 [[package]]
@@ -1282,6 +1318,15 @@ wheels = [
 ]
 
 [[package]]
+name = "narwhals"
+version = "1.47.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/fa/97/f9072f2dd368e52a37c0f5578f5910c689d5ac9c1108f8d2ed6c84c1c8fc/narwhals-1.47.1.tar.gz", hash = "sha256:3e477a54984a141b500ebd65d0b946b7a991080939b4a3321a6b01ea97258c9a", size = 516244, upload-time = "2025-07-17T18:23:04.403Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c0/15/278693412221859a0159719878e51a79812a189edceef2fe325160a8e661/narwhals-1.47.1-py3-none-any.whl", hash = "sha256:b9f2b2557aba054231361a00f6fcabc5017e338575e810e82155eb34e38ace93", size = 375506, upload-time = "2025-07-17T18:23:02.492Z" },
+]
+
+[[package]]
 name = "nbclient"
 version = "0.10.2"
 source = { registry = "https://pypi.org/simple" }
@@ -1703,6 +1748,19 @@ wheels = [
 ]
 
 [[package]]
+name = "plotly"
+version = "6.2.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "narwhals" },
+    { name = "packaging" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/6e/5c/0efc297df362b88b74957a230af61cd6929f531f72f48063e8408702ffba/plotly-6.2.0.tar.gz", hash = "sha256:9dfa23c328000f16c928beb68927444c1ab9eae837d1fe648dbcda5360c7953d", size = 6801941, upload-time = "2025-06-26T16:20:45.765Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ed/20/f2b7ac96a91cc5f70d81320adad24cc41bf52013508d649b1481db225780/plotly-6.2.0-py3-none-any.whl", hash = "sha256:32c444d4c940887219cb80738317040363deefdfee4f354498cc0b6dab8978bd", size = 9635469, upload-time = "2025-06-26T16:20:40.76Z" },
+]
+
+[[package]]
 name = "prometheus-client"
 version = "0.22.1"
 source = { registry = "https://pypi.org/simple" }
@@ -1721,6 +1779,28 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/bb/6e/9d084c929dfe9e3bfe0c6a47e31f78a25c54627d64a66e884a8bf5474f1c/prompt_toolkit-3.0.51.tar.gz", hash = "sha256:931a162e3b27fc90c86f1b48bb1fb2c528c2761475e57c9c06de13311c7b54ed", size = 428940, upload-time = "2025-04-15T09:18:47.731Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/ce/4f/5249960887b1fbe561d9ff265496d170b55a735b76724f10ef19f9e40716/prompt_toolkit-3.0.51-py3-none-any.whl", hash = "sha256:52742911fde84e2d423e2f9a4cf1de7d7ac4e51958f648d9540e0fb8db077b07", size = 387810, upload-time = "2025-04-15T09:18:44.753Z" },
+]
+
+[[package]]
+name = "prophet"
+version = "1.1.7"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "cmdstanpy" },
+    { name = "holidays" },
+    { name = "importlib-resources" },
+    { name = "matplotlib" },
+    { name = "numpy" },
+    { name = "pandas" },
+    { name = "tqdm" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/4f/ce/b42f8e990456c04ead0e2d8f8eab421c258dc73bc0a41665c734e3f5aced/prophet-1.1.7.tar.gz", hash = "sha256:97ef633a7d2d3bb7237f58b6990a68467c3c8089f605ea364b03f842ab3ea9cf", size = 66236, upload-time = "2025-05-30T12:29:37.636Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/60/20/30e43e73eb3c8f97a377cd38832b142f707d0accf37b569dd40239fa8a63/prophet-1.1.7-py3-none-macosx_10_11_x86_64.whl", hash = "sha256:93192d17df5b16e94eea93777eb3015f0803a41e290f822246b1a73c681de6da", size = 8846398, upload-time = "2025-05-30T12:29:25.012Z" },
+    { url = "https://files.pythonhosted.org/packages/64/ae/de9348e95db7c2c795635b017761c114e1549120f46c3b345c74ffa20d13/prophet-1.1.7-py3-none-macosx_11_0_arm64.whl", hash = "sha256:f713d8efa1c08b70b1b6d2146ecb4e315c879d685f4cbd7f5941f7f57296e13d", size = 8239419, upload-time = "2025-05-30T12:29:27.756Z" },
+    { url = "https://files.pythonhosted.org/packages/ac/1f/42e88dc50db1be16baa213db1049a7632ae4b5820276850a7887096797e9/prophet-1.1.7-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:197193ec9e5586f0ff6682e28a8b32b4e8242dd7ef989004f14010e968037a4e", size = 14656927, upload-time = "2025-05-30T12:29:30.158Z" },
+    { url = "https://files.pythonhosted.org/packages/0b/08/51b782a27f5bee90362e80a8f256cf9eead4f3f40d31224b9b7d63ef4bdf/prophet-1.1.7-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:382f3ac5865f9c106058fd001c2674a5dc1c78edf8784912a4bd7c68a6c9e99a", size = 14382102, upload-time = "2025-05-30T12:29:32.936Z" },
+    { url = "https://files.pythonhosted.org/packages/c7/ef/925617d36c08e0bbdf4347a9b38974ce7ab8fdb5d1a5cf0e3f3c65ea43da/prophet-1.1.7-py3-none-win_amd64.whl", hash = "sha256:e1b1ae5f4d7ab4676f26290a967e9d918aba54a1b885e80ba6d4ed1c0bf421ae", size = 13328337, upload-time = "2025-05-30T12:29:35.675Z" },
 ]
 
 [[package]]
@@ -2280,6 +2360,18 @@ wheels = [
 ]
 
 [[package]]
+name = "stanio"
+version = "0.5.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "numpy" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/2c/5b/6e376499c3f9d71e4154b031d059663598534dd038f421e8c643d61afec5/stanio-0.5.1.tar.gz", hash = "sha256:348d52f947dec431e118f4b601c4c5296929b86401d4d4dd5aa9373b0d4ae4ac", size = 11983, upload-time = "2024-07-08T19:35:48.029Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/56/87/37a80e4d5bd453c33262d8fb618b6840fd98d24ed08e046a4a9b10177fa3/stanio-0.5.1-py3-none-any.whl", hash = "sha256:99ad590daa5834681245c2b651716ec2e06223853661ada21430c621521c849f", size = 8065, upload-time = "2024-07-08T19:35:46.503Z" },
+]
+
+[[package]]
 name = "statsmodels"
 version = "0.14.5"
 source = { registry = "https://pypi.org/simple" }
@@ -2323,6 +2415,8 @@ dependencies = [
     { name = "matplotlib" },
     { name = "opendatasets" },
     { name = "pandas" },
+    { name = "plotly" },
+    { name = "prophet" },
     { name = "scikit-learn" },
     { name = "scikit-optimize" },
     { name = "statsmodels" },
@@ -2338,6 +2432,8 @@ requires-dist = [
     { name = "matplotlib", specifier = ">=3.10.3" },
     { name = "opendatasets", specifier = ">=0.1.22" },
     { name = "pandas", specifier = ">=2.3.1" },
+    { name = "plotly", specifier = ">=6.2.0" },
+    { name = "prophet", specifier = ">=1.1.7" },
     { name = "scikit-learn", specifier = ">=1.7.0" },
     { name = "scikit-optimize", specifier = ">=0.10.2" },
     { name = "statsmodels", specifier = ">=0.14.5" },
