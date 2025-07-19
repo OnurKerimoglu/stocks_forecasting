@@ -79,7 +79,7 @@ def prepare_features(df, target, beta_window=10, ma_windows=[10, 20, 60], ewm_al
             print(f'Optimal alpha for exponential smoothing: {fit.params["smoothing_level"]}')
             df[f'{target}_EWMopt'] = fit.fittedvalues
         else:
-            df[f'{target}_EWM{alpha}'.replace('.', '')] = df['Returns'].ewm(alpha=alpha).mean()
+            df[f'{target}_EWM{alpha}'.replace('.', '')] = df[target].ewm(alpha=alpha).mean()
     
 
     df['Close_ROC10'] = df['Close'].pct_change(periods=10)
