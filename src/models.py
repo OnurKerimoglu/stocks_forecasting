@@ -1,4 +1,6 @@
+from matplotlib import pyplot as plt
 import pandas as pd
+import seaborn as sns
 from sklearn.metrics import root_mean_squared_error
 
 
@@ -77,3 +79,52 @@ def evaluate(y_train, y_hat_train, y_test, y_hat_test):
     y_test.plot(style=".", color='red')
     y_hat_train.plot(style='-', color='blue')
     y_hat_test.plot(style='-', color='red')
+
+def plot_multistep(y, every=1, ax=None, palette_kwargs=None):
+    palette_kwargs_ = dict(palette='husl', n_colors=16, desat=None)
+    if palette_kwargs is not None:
+        palette_kwargs_.update(palette_kwargs)
+    palette = sns.color_palette(**palette_kwargs_)
+    if ax is None:
+        fig, ax = plt.subplots()
+    ax.set_prop_cycle(plt.cycler('color', palette))
+    for date, preds in y[::every].iterrows():
+        preds.index = pd.period_range(start=date, periods=len(preds))
+        preds.plot(ax=ax)
+    return ax
+
+def evaluate_multistep_forecast(y_train, y_train_hat, y_test, y_test_hat, df, ticker, target):
+    # Used later for annotation
+    train_rmse = root_mean_squared_error(y_train, y_train_hat)
+    test_rmse = root_mean_squared_error(y_test, y_test_hat)
+    print((f"{ticker}: Train RMSE: {train_rmse:.2f}, Test RMSE: {test_rmse:.2f}"))
+
+    plt.rc("figure", autolayout=True, figsize=(12, 6))
+    plt.rc(
+        "axes",
+        labelweight="bold",
+        labelsize="large",
+        titleweight="bold",
+        titlesize=16,
+        titlepad=10,
+    )
+
+    plot_params = dict(
+        color="0.75",
+        style=".-",
+        markeredgecolor="0.25",
+        markerfacecolor="0.25",
+    )
+    palette = dict(palette='husl', n_colors=64)
+
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(11, 6))
+    ax1 = df[target][y_train_hat.index].plot(**plot_params, ax=ax1)
+    ax1 = plot_multistep(y_train_hat, ax=ax1, palette_kwargs=palette)
+    ax1.set(xlabel='')
+    _ = ax1.legend([f'{target} (train)', 'Forecast'], loc="upper right")
+    ax2 = df[target][y_test_hat.index].plot(**plot_params, ax=ax2)
+    ax2 = plot_multistep(y_test_hat, ax=ax2, palette_kwargs=palette)
+    ax2.set(xlabel='')
+    _ = ax2.legend([f'{target} (test)', 'Forecast'], loc="upper right")
+    plt.suptitle(f'{ticker} Train RMSE: {train_rmse:.2f}, Test RMSE: {test_rmse:.2f}')
+    plt.tight_layout(rect=[0, 0.03, 1, 0.95])

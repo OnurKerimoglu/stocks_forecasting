@@ -264,43 +264,42 @@ def extract_ticker(df_clean, ticker, requiredrecords=500, datapath=None, write=F
         print(f'Wrote sample to: {clean_sample_fpath_full}')
     return df_clean_sample
 
-def make_lags(ts, lags, lead_time=1, name='y'):
-    return pd.concat(
-        {
-            f'{name}_lag_{i}': ts.shift(i)
-            for i in range(lead_time, lags + lead_time)
-        },
-        axis=1)
+def make_multistep_target(y, steps):
+    y_multi = pd.concat(
+        {f'y_step_{i + 1}': y.shift(-i)
+         for i in range(steps)},
+        axis=1
+        )
+    y_multi.dropna(inplace=True)
+    return y_multi
 
-def make_leads(ts, leads, name='y'):
-    return pd.concat(
-        {
-            f'{name}_lead_{i}': ts.shift(-i)
-            for i in reversed(range(leads))
-        },
-        axis=1)
-
-def make_multistep_target(ts, steps, reverse=False):
-    shifts = reversed(range(steps)) if reverse else range(steps)
-    return pd.concat({f'y_step_{i + 1}': ts.shift(-i) for i in shifts}, axis=1)
-
-
-def create_multistep_example(n, steps, lags, lead_time=1):
-    ts = pd.Series(
-        np.arange(n),
-        index=pd.period_range(start='2010', freq='A', periods=n, name='Year'),
-        dtype=pd.Int8Dtype,
-    )
-    X = make_lags(ts, lags, lead_time)
-    y = make_multistep_target(ts, steps, reverse=True)
-    data = pd.concat({'Targets': y, 'Features': X}, axis=1)
-    data = data.style.set_properties(['Targets'], **{'background-color': 'LavenderBlush'}) \
-                     .set_properties(['Features'], **{'background-color': 'Lavender'})
-    return data
-
-
-def load_multistep_data():
-    df1 = create_multistep_example(10, steps=1, lags=3, lead_time=1)
-    df2 = create_multistep_example(10, steps=3, lags=4, lead_time=2)
-    df3 = create_multistep_example(10, steps=3, lags=4, lead_time=1)
-    return [df1, df2, df3]
+def create_X_y_multistep(df_all, steps=5, target='Returns'):
+    y_list = []
+    X_list = []
+    # loop over tickers to create multistep targets
+    for ticker, grp in df_all.groupby('Ticker'):
+        df = grp.sort_values('Date').copy()
+        y = df[target]
+        y_multi = make_multistep_target(y, steps=steps).dropna()
+        X = df.drop(columns=[target]) # TODO: don't drop, use ticker for multi-indexing
+        # Shifting has created indexes that don't match. Only keep times for
+        # which we have both targets and features.
+        y_multi, X = y_multi.align(X, join='inner', axis=0)
+        # Add Ticker and Date, which will be used as indices later
+        y_multi['Ticker'] = ticker
+        y_multi['Date'] = X['Date']
+        # check whether anything left from X and y_multi after droppping Nas
+        if y_multi.shape[0] == 0 or X.shape[0] == 0:
+            print(f"For ticker: {ticker}, no data left after dropping NaNs.")
+        else:
+            y_list.append(y_multi)
+            X_list.append(X)
+    if len(y_list) == 0 or len(X_list) == 0:
+        raise ValueError("No data left after processing. Check your input data and parameters.")
+    else:
+        y_multi_all = pd.concat(y_list)
+        X_all = pd.concat(X_list)
+        print(f'X shape: {X_all.shape}, y_multi shape: {y_multi_all.shape}')
+        X_all.set_index(['Ticker', 'Date'], inplace=True)
+        y_multi_all.set_index(['Ticker', 'Date'], inplace=True)
+        return X_all, y_multi_all
