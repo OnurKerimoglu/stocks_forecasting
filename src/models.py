@@ -1,7 +1,15 @@
 from matplotlib import pyplot as plt
 import pandas as pd
 import seaborn as sns
+from skopt import BayesSearchCV
+from skopt.callbacks import DeltaYStopper
+from skopt.space import Real
+from sklearn.compose import ColumnTransformer
+from sklearn.linear_model import ElasticNet
 from sklearn.metrics import root_mean_squared_error
+from sklearn.model_selection import TimeSeriesSplit
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
 
 
 class VStackedEstimatorMultiTarget:
@@ -128,3 +136,72 @@ def evaluate_multistep_forecast(y_train, y_train_hat, y_test, y_test_hat, df, ti
     _ = ax2.legend([f'{target} (test)', 'Forecast'], loc="upper right")
     plt.suptitle(f'{ticker} Train RMSE: {train_rmse:.2f}, Test RMSE: {test_rmse:.2f}')
     plt.tight_layout(rect=[0, 0.03, 1, 0.95])
+
+def optimize_elasticnet_pipeline(
+    X_train: pd.DataFrame,
+    y_train: pd.Series,
+    features2scale: list,
+    cv_splits: int = 4,
+    n_iter: int = 30
+):
+    """
+    Builds a Pipeline with preprocessing and ElasticNet, then runs BayesSearchCV.
+
+    Parameters
+    ----------
+    X_train : DataFrame of training features
+    y_train : Series of training targets
+    features2scale : list of column names to StandardScale
+    cv_splits : number of TimeSeriesSplit folds
+    n_iter : BayesSearchCV iterations
+
+    Returns
+    -------
+    best_pipeline : Pipeline
+        Pipeline refit on full training data with best hyperparameters
+    best_params : dict
+        Best-found hyperparameters
+    """
+    # Preprocessing
+    preprocessor = ColumnTransformer(
+        transformers=[
+            ('num', StandardScaler(), features2scale),
+        ],
+        remainder='passthrough'
+    )
+
+    # Pipeline
+    pipeline = Pipeline([
+        ('preprocessor', preprocessor),
+        ('model', ElasticNet(max_iter=1000, random_state=42))
+    ])
+
+    # Hyperparameter search space
+    search_spaces = {
+        'model__alpha': Real(1e-3, 10.0, prior='log-uniform'),  # Constant that multiplies the penalty terms. alpha=0.0 is ordinary linear regression
+        'model__l1_ratio': Real(0.0, 1.0, prior='uniform')  # The ElasticNet mixing parameter, with 0 <= l1_ratio <= 1. For l1_ratio = 0 the penalty is an L2 penalty. For l1_ratio = 1 it is an L1 penalty. 
+    }
+
+    # Time series CV
+    tscv = TimeSeriesSplit(n_splits=cv_splits)
+
+    # stop if best objective hasn't improved in a while
+    stopper = DeltaYStopper(delta=1e-2, n_best=5)
+
+    # BayesSearchCV
+    bayes_cv = BayesSearchCV(
+        estimator=pipeline,
+        search_spaces=search_spaces,
+        n_iter=n_iter,
+        scoring='neg_root_mean_squared_error',
+        cv=tscv,
+        random_state=42,
+        n_jobs=-1,
+        verbose=0
+    )
+
+    # Fit
+    bayes_cv.fit(X_train, y_train, callback=stopper)
+    print(f"Best hyperparameters: {bayes_cv.best_params_}")
+
+    return bayes_cv.best_estimator_, bayes_cv.best_params_
