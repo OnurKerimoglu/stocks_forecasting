@@ -173,7 +173,7 @@ def optimize_elasticnet_pipeline(
     # Pipeline
     pipeline = Pipeline([
         ('preprocessor', preprocessor),
-        ('model', ElasticNet(max_iter=1000, random_state=42))
+        ('model', ElasticNet(max_iter=5000, random_state=42))
     ])
 
     # Hyperparameter search space
