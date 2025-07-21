@@ -279,7 +279,7 @@ def make_multistep_target(y, steps):
     y_multi.dropna(inplace=True)
     return y_multi
 
-def create_X_y_multistep(df_all, steps=5, target='Returns'):
+def create_X_y_multistep(df_all, steps=5, target='Returns', verbose=False):
     y_list = []
     X_list = []
     # loop over tickers to create multistep targets
@@ -305,7 +305,8 @@ def create_X_y_multistep(df_all, steps=5, target='Returns'):
     else:
         y_multi_all = pd.concat(y_list)
         X_all = pd.concat(X_list)
-        print(f'X shape: {X_all.shape}, y_multi shape: {y_multi_all.shape}')
+        if verbose:
+            print(f'X shape: {X_all.shape}, y_multi shape: {y_multi_all.shape}')
         X_all.set_index(['Ticker', 'Date'], inplace=True)
         y_multi_all.set_index(['Ticker', 'Date'], inplace=True)
         return X_all, y_multi_all
