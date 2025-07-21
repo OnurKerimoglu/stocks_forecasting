@@ -105,7 +105,7 @@ def evaluate_multistep_forecast(y_train, y_train_hat, y_test, y_test_hat, df, ti
     # Used later for annotation
     train_rmse = root_mean_squared_error(y_train, y_train_hat)
     test_rmse = root_mean_squared_error(y_test, y_test_hat)
-    print((f"{ticker}: Train RMSE: {train_rmse:.2f}, Test RMSE: {test_rmse:.2f}"))
+    print((f"{ticker}: Train RMSE: {train_rmse:.5f}, Test RMSE: {test_rmse:.5f}"))
 
     plt.rc("figure", autolayout=True, figsize=(12, 6))
     plt.rc(
@@ -134,7 +134,7 @@ def evaluate_multistep_forecast(y_train, y_train_hat, y_test, y_test_hat, df, ti
     ax2 = plot_multistep(y_test_hat, ax=ax2, palette_kwargs=palette)
     ax2.set(xlabel='')
     _ = ax2.legend([f'{target} (test)', 'Forecast'], loc="upper right")
-    plt.suptitle(f'{ticker} Train RMSE: {train_rmse:.2f}, Test RMSE: {test_rmse:.2f}')
+    plt.suptitle(f'{ticker} Train RMSE: {train_rmse:.5f}, Test RMSE: {test_rmse:.5f}')
     plt.tight_layout(rect=[0, 0.03, 1, 0.95])
 
 def optimize_elasticnet_pipeline(

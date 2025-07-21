@@ -29,7 +29,13 @@ def clean_raw_data(df_raw):
     df_clean['Date'] = pd.to_datetime(df_clean['Date'], utc=True).dt.tz_convert(None)
     df_clean.drop_duplicates(subset=['Date', 'Ticker'], keep='first', inplace=True)
     df_clean = df_clean[['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'Ticker']]
-    df_clean['returns'] = df_clean['Close'].pct_change()
+    df_clean['returns'] = (df_clean.groupby('Ticker')['Close'].pct_change())
+    lower, upper = (
+        df_clean['returns'].quantile(0.01),
+        df_clean['returns'].quantile(0.99),
+    )
+    print(f'The returns are winsorized with upper and lower caps of respectively {upper} and {lower}')
+    df_clean['returns'] = df_clean['returns'].clip(lower, upper)
     df_clean.dropna(inplace=True)
     return df_clean
 
